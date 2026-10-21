@@ -2,6 +2,8 @@
 
 **Contextual subchat for AI answers.** SideNote lets a reader ask about one answer block or selected phrase while the main conversation stays exactly where it is.
 
+SideNote is an independent engineering MVP, not an official integration with any AI provider. Site support relies on best-effort DOM adapters and has not been formally qualified across provider accounts, locales, or UI variants. It has not received an independent security review. The source is released under the repository's [MIT License](../LICENSE).
+
 ## Preview and local backend
 
 Run `./start-demo.sh` from this directory and open [http://127.0.0.1:8765/preview.html](http://127.0.0.1:8765/preview.html). The Python + SQLite backend in [backend/README.md](backend/README.md) serves the standalone preview and demo video only. The installable extension is a separate browser-local MVP: it stores bounded subchat history in Chrome storage and calls the provider configured in extension options. This split is deliberate and documented; the local backend demonstrates a native branch-storage contract, not the extension’s persistence layer. The preview needs provider settings for real answers; see the backend README.
@@ -32,7 +34,7 @@ Use HTTPS for remote model endpoints. HTTP is permitted only for localhost devel
 
 ## Supported page adapters
 
-The manifest currently targets ChatGPT, Claude, Gemini, Perplexity, and Copilot. The extension uses known assistant-message selectors and a semantic block fallback. AI products change their page markup, so the extension is a practical bridge and will need adapter maintenance. The native integration contract in [INTEGRATION.md](INTEGRATION.md) is the stable route for product teams.
+The manifest currently targets ChatGPT, Claude, Gemini, Perplexity, and Copilot. This means the extension is injected on those hostnames; it does not guarantee current compatibility with every page or account. The extension uses known assistant-message selectors and a semantic block fallback. AI products change their page markup, so the extension is a practical bridge and will need adapter maintenance. The native integration contract in [INTEGRATION.md](INTEGRATION.md) is the stable route for product teams.
 
 ## Privacy and data flow
 
