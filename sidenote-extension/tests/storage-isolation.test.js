@@ -10,7 +10,9 @@ const values = {
 let messageListener;
 let connectListener;
 let accessLevel;
+let sessionAccessLevel;
 let fetchImplementation;
+const sessionValues = {};
 
 const chrome = {
   runtime: {
@@ -46,7 +48,33 @@ const chrome = {
         Object.assign(values, update);
       },
       async remove(keys) {
-        for (const key of keys) delete values[key];
+        for (const key of Array.isArray(keys) ? keys : [keys]) {
+          delete values[key];
+        }
+      },
+    },
+    session: {
+      setAccessLevel(options) {
+        sessionAccessLevel = options;
+        return Promise.resolve();
+      },
+      async get(keys) {
+        if (Array.isArray(keys)) {
+          return Object.fromEntries(
+            keys
+              .filter((key) => key in sessionValues)
+              .map((key) => [key, sessionValues[key]]),
+          );
+        }
+        return { [keys]: sessionValues[keys] };
+      },
+      async set(update) {
+        Object.assign(sessionValues, update);
+      },
+      async remove(keys) {
+        for (const key of Array.isArray(keys) ? keys : [keys]) {
+          delete sessionValues[key];
+        }
       },
     },
   },
@@ -84,6 +112,7 @@ function send(message, sender = { id: "test-extension", tab: { id: 1 } }) {
 
 async function testStorageIsolation() {
   assert.equal(accessLevel.accessLevel, "TRUSTED_CONTEXTS");
+  assert.equal(sessionAccessLevel.accessLevel, "TRUSTED_CONTEXTS");
   values["sidenote:v2:test-anchor"] = { messages: [] };
 
   const thread = await send({
@@ -94,6 +123,8 @@ async function testStorageIsolation() {
     JSON.parse(JSON.stringify(thread["sidenote:v2:test-anchor"])),
     { messages: [] },
   );
+  assert.equal(sessionValues.apiKey, "private-key");
+  assert.equal(values.apiKey, undefined);
 
   const secretRead = await send({
     type: "sidenote:storage:get",
@@ -106,7 +137,8 @@ async function testStorageIsolation() {
     values: { apiKey: "stolen" },
   });
   assert.match(secretWrite.error, /Invalid SideNote storage request/);
-  assert.equal(values.apiKey, "private-key");
+  assert.equal(sessionValues.apiKey, "private-key");
+  assert.equal(values.apiKey, undefined);
 
   values["sidenote:v1:old-anchor"] = { messages: [] };
   const legacyRead = await send({
