@@ -1,0 +1,11 @@
+.DS_Store
+.env
+.env.*
+!.env.example
+__pycache__/
+*.py[cod]
+.pytest_cache/
+node_modules/
+outreach/
+backend/sidenote.sqlite3*
+evaluation/results*.jsonl

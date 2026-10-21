@@ -1,0 +1,6 @@
+__pycache__/
+*.py[cod]
+sidenote.sqlite3
+sidenote.sqlite3-shm
+sidenote.sqlite3-wal
+.env

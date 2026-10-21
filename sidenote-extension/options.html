@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>SideNote settings</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: #000;
+        color: #f2f2f2;
+        font:
+          15px/1.55 system-ui,
+          -apple-system,
+          "Segoe UI",
+          sans-serif;
+      }
+      .wrap {
+        width: min(620px, 100%);
+        margin: 56px auto;
+        padding: 0 22px;
+      }
+      .brand {
+        font-size: 12px;
+        color: #999;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+      .brand b {
+        color: #ccc;
+      }
+      .card {
+        margin-top: 15px;
+        padding: 26px;
+        background: #090909;
+        border: 1px solid #292929;
+        border-radius: 16px;
+      }
+      h1 {
+        font-size: 26px;
+        margin: 0 0 6px;
+      }
+      p {
+        color: #a0a0a0;
+        font-size: 13px;
+        margin: 0 0 23px;
+      }
+      .field {
+        margin: 18px 0;
+      }
+      .field label {
+        display: block;
+        font-size: 13px;
+        font-weight: 650;
+        margin-bottom: 6px;
+      }
+      .field input {
+        width: 100%;
+        border: 1px solid #393939;
+        border-radius: 9px;
+        background: #050505;
+        color: white;
+        padding: 11px 12px;
+        font: 14px system-ui;
+        outline: none;
+      }
+      .field input:focus {
+        border-color: #ddd;
+        box-shadow: 0 0 0 3px #ddd22;
+      }
+      .help {
+        font-size: 11px;
+        color: #888;
+        margin-top: 5px;
+      }
+      .actions {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-top: 22px;
+      }
+      .actions button {
+        border: 0;
+        background: #f0f0f0;
+        color: #050505;
+        border-radius: 9px;
+        padding: 10px 16px;
+        font-weight: 700;
+        cursor: pointer;
+      }
+      .status {
+        font-size: 12px;
+        color: #aaa;
+      }
+      #forget {
+        background: #111;
+        color: #ddd;
+        border: 1px solid #444;
+      }
+      #forget:hover {
+        background: #1b1b1b;
+      }
+      .privacy {
+        margin-top: 19px;
+        padding: 12px 14px;
+        border-radius: 9px;
+        background: #101010;
+        border: 1px solid #303030;
+        color: #aaa;
+        font-size: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="wrap">
+      <div class="brand"><b>✦ SideNote</b> · model connection</div>
+      <section class="card">
+        <h1>Connect a model endpoint</h1>
+        <p>
+          SideNote keeps the contextual chat UI separate from the model
+          provider. Configure an OpenAI-compatible chat completions endpoint.
+        </p>
+        <div class="field">
+          <label for="endpoint">Endpoint URL</label
+          ><input
+            id="endpoint"
+            type="url"
+            placeholder="https://your-provider.example/v1/chat/completions"
+          />
+          <div class="help">
+            The extension requests network permission for this endpoint's origin
+            when you save.
+          </div>
+        </div>
+        <div class="field">
+          <label for="model">Model name</label
+          ><input
+            id="model"
+            placeholder="Model identifier from your provider"
+          />
+        </div>
+        <div class="field">
+          <label for="apiKey">API key</label
+          ><input
+            id="apiKey"
+            type="password"
+            autocomplete="off"
+            placeholder="Enter your provider API key"
+          />
+          <div class="help">
+            A saved key is never displayed here. It stays in extension memory
+            for this session, not on disk. Leave blank to keep it; re-enter it
+            after the extension or browser restarts.
+          </div>
+        </div>
+        <div class="actions">
+          <button id="save">Save connection</button
+          ><span class="status" id="status" role="status"></span>
+        </div>
+        <div class="actions">
+          <button id="forget" type="button">
+            Forget saved key and subchats
+          </button>
+        </div>
+        <div class="privacy">
+          Requests include only the selected passage, bounded nearby context,
+          and the side-thread messages. The API key stays in session memory and
+          is sent from the trusted extension service worker to your configured
+          endpoint. Private-browsing subchats stay in page memory and disappear
+          when that tab closes.
+        </div>
+      </section>
+    </main>
+    <script src="options.js"></script>
+  </body>
+</html>

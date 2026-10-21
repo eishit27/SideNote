@@ -1,0 +1,8 @@
+# Keep this workspace's repository focused on the SideNote source project.
+/*
+!/README.md
+!/.gitignore
+!/sidenote-extension/
+
+# Re-include project contents while honoring its own ignore rules.
+!/sidenote-extension/**
