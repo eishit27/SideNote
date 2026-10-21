@@ -1,6 +1,7 @@
 # Keep this workspace's repository focused on the SideNote source project.
 /*
 !/README.md
+!/LICENSE
 !/.gitignore
 !/sidenote-extension/
 
